@@ -1,0 +1,8 @@
+{
+  "name": "Biblion Web",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:18",
+  "remoteUser": "node",
+  "forwardPorts": [5173],
+  "otherPortsAttributes": { "onAutoForward": "ignore" },
+  "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "vue.volar", "vue.vscode-typescript-vue-plugin"]
+}
