@@ -3,6 +3,7 @@ require("@rushstack/eslint-patch/modern-module-resolution");
 
 module.exports = {
   root: true,
+  ignorePatterns: ["components.d.ts"],
   extends: [
     "eslint:recommended",
     "plugin:vue/vue3-recommended",
@@ -11,5 +12,8 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: "latest",
+  },
+  rules: {
+    "@typescript-eslint/no-non-null-assertion": "off",
   },
 };
