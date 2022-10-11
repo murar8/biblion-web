@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     AppUserButton: typeof import('./src/common/app-user-button.vue')['default']
     AppUserPopover: typeof import('./src/common/app-user-popover.vue')['default']
     FaAnkh: typeof import('@vicons/fa')['Ankh']
+    FaMoon: typeof import('@vicons/fa')['Moon']
     FaSun: typeof import('@vicons/fa')['Sun']
     FaUser: typeof import('@vicons/fa')['User']
     HomeView: typeof import('./src/views/home-view.vue')['default']

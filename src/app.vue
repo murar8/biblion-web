@@ -1,28 +1,13 @@
 <script setup lang="ts">
 import { darkTheme, lightTheme } from "naive-ui";
-import { provide, ref } from "vue";
-import { toggleThemeKey } from "./keys";
+import { storeToRefs } from "pinia";
+import { useColorModeStore } from "./stores/color-mode";
 
-const getTheme = () => {
-  const userPreference = localStorage.getItem("theme") as "light" | "dark" | null;
-  if (userPreference) return userPreference;
-  if (window.matchMedia?.("(prefers-color-scheme: dark)")?.matches) return "dark";
-  else return "light";
-};
-
-const variant = ref(getTheme());
-
-const toggleTheme = () => {
-  const next = variant.value === "dark" ? "light" : "dark";
-  localStorage.setItem("theme", next);
-  variant.value = next;
-};
-
-provide(toggleThemeKey, toggleTheme);
+const { colorMode } = storeToRefs(useColorModeStore());
 </script>
 
 <template>
-  <n-config-provider :theme="variant === 'dark' ? darkTheme : lightTheme">
+  <n-config-provider :theme="colorMode === 'dark' ? darkTheme : lightTheme">
     <n-global-style />
     <header>
       <app-header />

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^1.0.2",
+    "@vueuse/core": "^9.3.0",
     "naive-ui": "^2.33.4",
     "pinia": "^2.0.23",
     "vfonts": "^0.0.3",
