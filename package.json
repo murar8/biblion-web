@@ -11,6 +11,7 @@
     "upgrade": "npm-upgrade"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^1.0.2",
     "naive-ui": "^2.33.4",
     "pinia": "^2.0.23",
     "vfonts": "^0.0.3",
