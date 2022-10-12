@@ -1,6 +1,7 @@
 {
   "name": "Biblion Web",
   "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:18",
+  "runArgs": ["--net=biblion-network"],
   "remoteUser": "node",
   "forwardPorts": [5173],
   "otherPortsAttributes": { "onAutoForward": "ignore" },
