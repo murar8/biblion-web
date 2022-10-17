@@ -5,5 +5,12 @@
   "remoteUser": "node",
   "forwardPorts": [5173],
   "otherPortsAttributes": { "onAutoForward": "ignore" },
+
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "latest"
+    }
+  },
+
   "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "vue.volar", "vue.vscode-typescript-vue-plugin"]
 }

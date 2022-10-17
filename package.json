@@ -8,7 +8,8 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "upgrade": "npm-upgrade"
+    "upgrade": "npm-upgrade",
+    "codegen": "openapi-generator-cli generate"
   },
   "dependencies": {
     "@auth0/auth0-vue": "^1.0.2",
@@ -20,6 +21,7 @@
     "vue-router": "^4.1.5"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/node": "^18.11.0",
     "@vicons/fa": "^0.12.0",
