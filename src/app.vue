@@ -9,6 +9,7 @@ const { colorMode } = storeToRefs(useColorModeStore());
 <template>
   <n-config-provider :theme="colorMode === 'dark' ? darkTheme : lightTheme">
     <n-global-style />
+    <app-loading-bar />
     <header>
       <app-header />
     </header>

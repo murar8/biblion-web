@@ -5,12 +5,7 @@ const { user, isAuthenticated, loginWithPopup, logout } = useAuth0();
 </script>
 
 <template>
-  <n-popover
-    trigger="click"
-    :disabled="!isAuthenticated"
-    content-style="height: 32px"
-    footer-style="height: 32px; display: flex"
-  >
+  <n-popover trigger="click" :disabled="!isAuthenticated">
     <template #trigger>
       <n-button circle @click="if (!isAuthenticated) loginWithPopup();">
         <template #icon>
@@ -19,12 +14,14 @@ const { user, isAuthenticated, loginWithPopup, logout } = useAuth0();
       </n-button>
     </template>
     <template #default>
-      <n-space align="center" size="small" :wrap="false">
+      <n-space align="center" :wrap-item="false" justify="center" size="small">
         <n-image
+          v-if="user.picture"
           :src="user.picture"
-          :img-props="{ 'referrer-policy': 'noreferrer' }"
+          :img-props="{ referrerpolicy: 'no-referrer' }"
           object-fit="contain"
           width="32"
+          height="32"
           style="border-radius: 4px"
           preview-disabled
         />

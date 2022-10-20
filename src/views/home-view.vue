@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div />
+  <router-link to="/posts/new">New Post</router-link>
 </template>
