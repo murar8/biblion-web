@@ -1,15 +1,20 @@
 <!-- eslint-disable vue/one-component-per-file -->
 
 <script lang="ts">
-import { useLoadingBar } from "naive-ui";
-import { defineComponent } from "vue";
+import { NAlert, useLoadingBar, useMessage, type MessageRenderMessage } from "naive-ui";
+import { defineComponent, h } from "vue";
 import { useRouter } from "vue-router";
+
+const renderMessage: MessageRenderMessage = (props) => {
+  return h(NAlert, { title: "An error occured", type: "error" }, { default: () => props.content });
+};
 
 export default {
   components: {
-    LoadingBar: defineComponent({
+    LoadingBarContent: defineComponent({
       setup: () => {
         const loadingBar = useLoadingBar();
+        const message = useMessage();
         const router = useRouter();
 
         router.beforeEach(() => {
@@ -20,8 +25,9 @@ export default {
           loadingBar.finish();
         });
 
-        router.onError(() => {
+        router.onError((error) => {
           loadingBar.error();
+          message.error(error?.message, { render: renderMessage });
         });
 
         return () => {};
@@ -34,7 +40,9 @@ export default {
 <script setup lang="ts"></script>
 
 <template>
-  <n-loading-bar-provider>
-    <loading-bar />
-  </n-loading-bar-provider>
+  <n-message-provider>
+    <n-loading-bar-provider>
+      <loading-bar-content />
+    </n-loading-bar-provider>
+  </n-message-provider>
 </template>
