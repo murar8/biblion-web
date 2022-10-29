@@ -72,7 +72,7 @@ watch(
 }
 
 .cm-root .cm-editor {
-  border: 1px solid transparent;
+  border: 1px solid v-bind("themeVars.borderColor");
   border-radius: v-bind("themeVars.borderRadius");
   transition: all 0.3s v-bind("themeVars.cubicBezierEaseInOut");
 }
