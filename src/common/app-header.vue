@@ -1,9 +1,15 @@
+<script setup lang="ts">
+import { useTitle } from "@vueuse/core";
+
+const title = useTitle(undefined, { observe: true });
+</script>
+
 <template>
   <n-page-header justify="space-between" style="padding: 16px">
     <template #avatar>
       <n-avatar src="/logo-32.png" />
     </template>
-    <template #title> Biblion </template>
+    <template #title> {{ title }} </template>
     <template #extra>
       <n-space>
         <app-theme-button />
@@ -11,4 +17,5 @@
       </n-space>
     </template>
   </n-page-header>
+  <n-divider style="margin: 0" />
 </template>

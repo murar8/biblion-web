@@ -1,6 +1,6 @@
 import { PostsApi } from "@/generated";
 import { computed } from "vue";
-import useApiConfig from "./use-api-config";
+import useApiConfig from "@/composables/use-api-config";
 
 export default function usePostsApi() {
   const configRef = useApiConfig();
