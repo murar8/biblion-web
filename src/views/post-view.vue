@@ -27,7 +27,7 @@ const postStore = usePostStore();
       />
     </n-space>
 
-    <v-editor v-model="postStore.post.content" :min-height="256" placeholder="Content" />
+    <v-editor v-model="postStore.post.content" style="flex: 1" placeholder="Content" />
 
     <n-button-group>
       <n-button round type="primary" style="width: 50%">

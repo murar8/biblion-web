@@ -12,7 +12,6 @@ import { computed, onMounted, ref, shallowRef, watch } from "vue";
 
 const props = defineProps<{
   modelValue?: string;
-  minHeight?: number;
 }>();
 
 const emit = defineEmits<{
@@ -66,12 +65,12 @@ watch(
 <!-- Please note all the following styles are applied to the global namespace! -->
 
 <style>
-.cm-root .cm-content,
-.cm-root .cm-gutter {
-  min-height: v-bind("`${props.minHeight}px`");
+.cm-root {
+  display: flex;
 }
 
 .cm-root .cm-editor {
+  width: 100%;
   border: 1px solid v-bind("themeVars.borderColor");
   border-radius: v-bind("themeVars.borderRadius");
   transition: all 0.3s v-bind("themeVars.cubicBezierEaseInOut");
