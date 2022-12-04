@@ -25,6 +25,4 @@ router.onError((error) => {
 });
 </script>
 
-<script setup lang="ts"></script>
-
 <template>{{}}</template>

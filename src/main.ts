@@ -1,8 +1,8 @@
 import App from "@/app.vue";
 import router from "@/router";
+import { VueQueryPlugin, type VueQueryPluginOptions } from "@tanstack/vue-query";
 import { createPinia } from "pinia";
 import { createApp, nextTick } from "vue";
-import { auth0 } from "@/auth0";
 
 import "vfonts/FiraCode.css";
 import "vfonts/Lato.css";
@@ -19,6 +19,18 @@ const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
-app.use(auth0);
+
+const vueQueryOptions: VueQueryPluginOptions = {
+  queryClientConfig: {
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        retry: false,
+      },
+    },
+  },
+};
+
+app.use(VueQueryPlugin, vueQueryOptions);
 
 app.mount("#app");

@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { useAuth0 } from "@auth0/auth0-vue";
-
-const { user, isAuthenticated, loginWithPopup, logout } = useAuth0();
 </script>
 
 <template>
-  <n-popover trigger="click" :disabled="!isAuthenticated">
+  TODO
+  <!-- <n-popover trigger="click" :disabled="!isAuthenticated">
     <template #trigger>
-      <n-button circle @click="if (!isAuthenticated) loginWithPopup();">
+      <n-button circle :loading="isLoading" @click="if (!isAuthenticated) authStore.loginWithPopup();">
         <template #icon>
           <n-icon><fa-user /></n-icon>
         </template>
       </n-button>
     </template>
+
     <template #default>
       <n-space align="center" :wrap-item="false" justify="center" size="small">
         <n-image
@@ -39,8 +38,9 @@ const { user, isAuthenticated, loginWithPopup, logout } = useAuth0();
         </n-text>
       </n-space>
     </template>
+
     <template #footer>
-      <n-button block text style="padding: 8px" @click="logout()"> Log Out </n-button>
+      <n-button block text style="padding: 8px" @click="authStore.logout()"> Log Out </n-button>
     </template>
-  </n-popover>
+  </n-popover> -->
 </template>

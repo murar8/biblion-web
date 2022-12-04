@@ -8,36 +8,48 @@ import { EditorView, minimalSetup } from "codemirror";
 import { useThemeVars } from "naive-ui";
 import { storeToRefs } from "pinia";
 import { changeColor } from "seemly";
-import { computed, onMounted, ref, shallowRef, watch } from "vue";
+import { computed, onMounted, ref, shallowRef, toRef, watch, watchEffect } from "vue";
 
 const props = defineProps<{
   modelValue?: string;
+  readonly?: boolean;
 }>();
+
+const modelValue = toRef(props, "modelValue");
+const readonly = toRef(props, "readonly");
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
 
 const themeVars = useThemeVars();
-
 const { colorMode } = storeToRefs(useColorModeStore());
-const theme = computed(() => (colorMode.value === "dark" ? githubDark : githubLight));
 
 const parentRef = ref<HTMLElement | undefined>();
 const editorRef = shallowRef<EditorView | undefined>();
 
-const updateListener = EditorView.updateListener.of((viewUpdate: ViewUpdate) => {
-  if (viewUpdate.docChanged && viewUpdate.state.doc.toString() !== props.modelValue) {
-    emit("update:modelValue", viewUpdate.state.doc.toString());
+watchEffect(() => {
+  if (editorRef.value && modelValue.value !== editorRef.value!.state.doc.toString()) {
+    editorRef.value!.dispatch({
+      changes: { from: 0, to: editorRef.value!.state.doc.length, insert: modelValue.value },
+    });
   }
 });
 
-const extensions = computed(() => {
-  return [minimalSetup, lineNumbers(), updateListener, theme.value];
-});
+const onUpdateContent = (viewUpdate: ViewUpdate) => {
+  if (viewUpdate.docChanged && viewUpdate.state.doc.toString() !== props.modelValue) {
+    emit("update:modelValue", viewUpdate.state.doc.toString());
+  }
+};
 
-onMounted(() => {
-  editorRef.value = new EditorView({ parent: parentRef.value!, extensions: extensions.value });
+const extensions = computed(() => {
+  return [
+    minimalSetup,
+    lineNumbers(),
+    colorMode.value === "dark" ? githubDark : githubLight,
+    EditorView.updateListener.of(onUpdateContent),
+    EditorView.editable.of(!readonly.value),
+  ];
 });
 
 watch(extensions, (extensions) => {
@@ -46,16 +58,9 @@ watch(extensions, (extensions) => {
   });
 });
 
-watch(
-  () => props.modelValue,
-  (value) => {
-    if (value !== editorRef.value!.state.doc.toString()) {
-      editorRef.value!.dispatch({
-        changes: { from: 0, to: editorRef.value!.state.doc.length, insert: value },
-      });
-    }
-  }
-);
+onMounted(() => {
+  editorRef.value = new EditorView({ parent: parentRef.value!, extensions: extensions.value });
+});
 </script>
 
 <template>

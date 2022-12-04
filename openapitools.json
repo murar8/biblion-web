@@ -7,7 +7,7 @@
       "typescript-fetch": {
         "generatorName": "typescript-fetch",
         "output": "src/generated",
-        "inputSpec": "http://biblion:8000/openapi.json",
+        "inputSpec": "http://biblion-code:8000/openapi.json",
         "additionalProperties": {
           "disallowAdditionalPropertiesIfNotPresent": false,
           "enumPropertyNaming": "UPPERCASE",
