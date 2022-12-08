@@ -36,5 +36,6 @@ const { colorMode } = storeToRefs(useColorModeStore());
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 </style>

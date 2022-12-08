@@ -1,46 +1,76 @@
 <script setup lang="ts">
+import { useAuthStore } from "@/stores/auth";
+import type { PopoverInst } from "naive-ui";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const authStore = useAuthStore();
+
+const logoutError = ref<any | null>(null);
+const isLoggingOut = ref(false);
+
+const popoverRef = ref<PopoverInst | null>(null);
+
+const onTriggerClick = () => {
+  if (!authStore.user) router.push({ name: "login" });
+};
+
+const onLogout = async () => {
+  try {
+    isLoggingOut.value = true;
+    logoutError.value = null;
+
+    await authStore.logout();
+    popoverRef.value?.setShow(false);
+    await router.push({ name: "home" });
+  } catch (exception) {
+    logoutError.value = exception;
+  } finally {
+    isLoggingOut.value = false;
+  }
+};
 </script>
 
 <template>
-  TODO
-  <!-- <n-popover trigger="click" :disabled="!isAuthenticated">
+  <n-popover
+    ref="popoverRef"
+    content-style="padding: 8px; display: flex; justify-content: center;"
+    footer-style="padding: 0; display: flex; justify-content: center;"
+    trigger="click"
+    :disabled="!authStore.user"
+  >
     <template #trigger>
-      <n-button circle :loading="isLoading" @click="if (!isAuthenticated) authStore.loginWithPopup();">
+      <n-button circle :loading="authStore.isLoading" @click="onTriggerClick">
         <template #icon>
           <n-icon><fa-user /></n-icon>
         </template>
       </n-button>
     </template>
 
-    <template #default>
-      <n-space align="center" :wrap-item="false" justify="center" size="small">
-        <n-image
-          v-if="user.picture"
-          :src="user.picture"
-          :img-props="{ referrerpolicy: 'no-referrer' }"
-          object-fit="contain"
-          width="32"
-          height="32"
-          style="border-radius: 4px"
-          preview-disabled
-        />
-        <n-text
-          strong
-          style="
-            display: inline-block;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            max-width: 128px;
-          "
-        >
-          {{ user.name || user.email }}
-        </n-text>
-      </n-space>
+    <template v-if="authStore.user" #default>
+      <n-text
+        type="info"
+        size="large"
+        style="display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 256px"
+      >
+        {{ authStore.user!.name || authStore.user!.email }}
+      </n-text>
     </template>
 
     <template #footer>
-      <n-button block text style="padding: 8px" @click="authStore.logout()"> Log Out </n-button>
+      <n-button
+        text
+        style="padding: 8px"
+        :loading="isLoggingOut"
+        :type="logoutError ? 'error' : 'tertiary'"
+        @click="onLogout"
+      >
+        <template #icon>
+          <n-icon><fa-user-slash /></n-icon>
+        </template>
+        <template #default> Log Out </template>
+      </n-button>
     </template>
-  </n-popover> -->
+  </n-popover>
 </template>
