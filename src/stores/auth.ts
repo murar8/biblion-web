@@ -17,7 +17,7 @@ export const useAuthStore = defineStore("auth", () => {
         return await usersApi.getCurrentUser();
       } catch (error) {
         if (error instanceof ResponseError && error.response.status === 401) {
-          return null;
+          return undefined;
         } else {
           throw error;
         }
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore("auth", () => {
       return usersApi.logoutUser();
     },
     onSuccess: () => {
-      queryClient.setQueryData(["user"], null);
+      queryClient.setQueryData(["user"], undefined);
     },
   });
 

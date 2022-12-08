@@ -8,15 +8,17 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const authStore = useAuthStore();
 
-const error = ref<any | null>(null);
+const error = ref<any | undefined>();
 const isLoading = ref(false);
 
 const errorMessage = computed(() => {
   switch (error.value?.response?.status) {
-    case 409:
+    case 409: {
       return "User already exists.";
-    default:
+    }
+    default: {
       return error.value?.message || "Unknown error.";
+    }
   }
 });
 
@@ -50,7 +52,7 @@ const rules: FormRules = {
 };
 
 const formData = ref<FormData>({ email: "", name: "", password: "" });
-const formRef = ref<FormInst | null>(null);
+const formRef = ref<FormInst | undefined>();
 
 const onSubmit = async (event: MouseEvent) => {
   event.preventDefault();
@@ -63,7 +65,7 @@ const onSubmit = async (event: MouseEvent) => {
 
   try {
     isLoading.value = true;
-    error.value = null;
+    error.value = undefined;
 
     await authStore.register({
       name: formData.value.name || undefined,
@@ -72,8 +74,8 @@ const onSubmit = async (event: MouseEvent) => {
     });
 
     await router.push({ name: "home" });
-  } catch (exception) {
-    error.value = exception;
+  } catch (error_) {
+    error.value = error_;
   } finally {
     isLoading.value = false;
   }

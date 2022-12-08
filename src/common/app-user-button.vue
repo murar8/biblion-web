@@ -7,10 +7,10 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const authStore = useAuthStore();
 
-const logoutError = ref<any | null>(null);
+const logoutError = ref<any | undefined>();
 const isLoggingOut = ref(false);
 
-const popoverRef = ref<PopoverInst | null>(null);
+const popoverRef = ref<PopoverInst | undefined>();
 
 const onTriggerClick = () => {
   if (!authStore.user) router.push({ name: "login" });
@@ -19,13 +19,13 @@ const onTriggerClick = () => {
 const onLogout = async () => {
   try {
     isLoggingOut.value = true;
-    logoutError.value = null;
+    logoutError.value = undefined;
 
     await authStore.logout();
     popoverRef.value?.setShow(false);
     await router.push({ name: "home" });
-  } catch (exception) {
-    logoutError.value = exception;
+  } catch (error) {
+    logoutError.value = error;
   } finally {
     isLoggingOut.value = false;
   }

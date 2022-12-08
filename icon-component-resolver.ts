@@ -2,9 +2,9 @@
  * Adapted from https://github.com/07akioni/xicons/issues/364#issuecomment-1118129894
  */
 
-import { readdirSync } from "fs";
+import { readdirSync } from "node:fs";
 import { resolveModule } from "local-pkg";
-import { dirname } from "path";
+import { dirname } from "node:path";
 import type { ComponentResolver } from "unplugin-vue-components/types";
 
 let cachedNames: Set<string>;
