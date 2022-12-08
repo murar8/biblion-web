@@ -1,4 +1,4 @@
-# biblion-api
+# biblion-web
 
 This project contains the frontend functionality for the biblion project, a simple pastebin-like file upload service.
 
