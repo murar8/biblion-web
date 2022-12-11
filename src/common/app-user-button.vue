@@ -58,19 +58,34 @@ const onLogout = async () => {
       </n-text>
     </template>
 
-    <template #footer>
-      <n-button
-        text
-        style="padding: 8px"
-        :loading="isLoggingOut"
-        :type="logoutError ? 'error' : 'tertiary'"
-        @click="onLogout"
-      >
-        <template #icon>
-          <n-icon><fa-user-slash /></n-icon>
-        </template>
-        <template #default> Log Out </template>
-      </n-button>
+    <template v-if="authStore.user" #footer>
+      <n-space vertical :size="0">
+        <n-button
+          v-if="!authStore.user!.verified"
+          text
+          style="padding: 8px"
+          type="warning"
+          @click="router.push({ name: 'verify' })"
+        >
+          <template #icon>
+            <n-icon><fa-user-astronaut /></n-icon>
+          </template>
+          <template #default> Verify your Account </template>
+        </n-button>
+
+        <n-button
+          text
+          style="padding: 8px"
+          :loading="isLoggingOut"
+          :type="logoutError ? 'error' : 'tertiary'"
+          @click="onLogout"
+        >
+          <template #icon>
+            <n-icon><fa-user-slash /></n-icon>
+          </template>
+          <template #default> Log Out </template>
+        </n-button>
+      </n-space>
     </template>
   </n-popover>
 </template>

@@ -53,6 +53,12 @@ export const useAuthStore = defineStore("auth", () => {
     },
   });
 
+  const { mutateAsync: requestEmailVerification } = useMutation({
+    mutationFn: async () => {
+      await usersApi.requestEmailVerification();
+    },
+  });
+
   return {
     user,
     isLoading,
@@ -60,5 +66,6 @@ export const useAuthStore = defineStore("auth", () => {
     login,
     logout,
     register,
+    requestEmailVerification,
   };
 });
