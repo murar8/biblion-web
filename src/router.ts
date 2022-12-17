@@ -10,6 +10,8 @@ const Register = () => import("@/views/register-view.vue");
 const Login = () => import("@/views/login-view.vue");
 const RequestEmailVerification = () => import("@/views/request-email-verification-view.vue");
 const VerifyEmail = () => import("@/views/verify-email-view.vue");
+const UserSettings = () => import("@/views/user-settings-view.vue");
+const ResetPassword = () => import("@/views/reset-password-view.vue");
 
 const isAuthenticatedGuard = async (to: unknown, from: unknown, next: NavigationGuardNext) => {
   const user = await queryClient.fetchQuery(queryKeys.users.me);
@@ -63,6 +65,20 @@ const router = createRouter({
       name: "request-email-verification",
       component: RequestEmailVerification,
       meta: { title: "Verify your Account" },
+      beforeEnter: [isAuthenticatedGuard],
+    },
+    {
+      path: "/settings",
+      name: "settings",
+      component: UserSettings,
+      meta: { title: "Account Settings" },
+      beforeEnter: [isAuthenticatedGuard],
+    },
+    {
+      path: "/reset/:code",
+      name: "reset-password",
+      component: ResetPassword,
+      meta: { title: "Reset your Password" },
       beforeEnter: [isAuthenticatedGuard],
     },
     {

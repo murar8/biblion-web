@@ -68,6 +68,13 @@ const onTriggerClick = () => {
           <template #default> Verify your Account </template>
         </n-button>
 
+        <n-button text style="padding: 8px" type="tertiary" @click="router.push({ name: 'settings' })">
+          <template #icon>
+            <n-icon><fa-user-edit /></n-icon>
+          </template>
+          <template #default> Account Settings </template>
+        </n-button>
+
         <n-button
           text
           style="padding: 8px"
