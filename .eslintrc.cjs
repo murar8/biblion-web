@@ -26,5 +26,7 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "unicorn/prevent-abbreviations": "off",
     "unicorn/no-useless-undefined": "off",
+    "unicorn/no-null": "off",
+    "@tanstack/query/prefer-query-object-syntax": "off",
   },
 };

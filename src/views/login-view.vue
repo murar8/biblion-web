@@ -1,25 +1,31 @@
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth";
+import { usersApi } from "@/api";
+import useErrorMessage from "@/composables/use-error-message";
+import type { LoginUserRequest } from "@/generated";
+import queryKeys from "@/query-keys";
 import isEmail from "@/utils/is-email";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import { StatusCodes } from "http-status-codes";
 import type { FormInst, FormRules } from "naive-ui";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const authStore = useAuthStore();
 
-const error = ref<any | undefined>();
-const isLoading = ref(false);
+const queryClient = useQueryClient();
 
-const errorMessage = computed(() => {
-  switch (error.value?.response?.status) {
-    case 404: {
-      return "User not found.";
-    }
-    default: {
-      return error.value?.message || "Unknown error.";
-    }
-  }
+const {
+  mutateAsync: login,
+  isLoading,
+  error,
+} = useMutation({
+  mutationFn: async (loginUserRequest: LoginUserRequest) => usersApi.loginUser({ loginUserRequest }),
+  onSuccess: (user) => queryClient.setQueryData(queryKeys.users.me.queryKey, user),
+});
+
+const errorMessage = useErrorMessage(error, {
+  [StatusCodes.NOT_FOUND]: "User not found.",
+  [StatusCodes.UNAUTHORIZED]: "Invalid password.",
 });
 
 interface FormData {
@@ -44,23 +50,14 @@ const onSubmit = async (event: MouseEvent) => {
     return;
   }
 
-  try {
-    isLoading.value = true;
-    error.value = undefined;
+  const identifier = isEmail(formData.value.identifier) ? "email" : "name";
 
-    const identifier = isEmail(formData.value.identifier) ? "email" : "name";
+  await login({
+    [identifier]: formData.value.identifier,
+    password: formData.value.password,
+  });
 
-    await authStore.login({
-      [identifier]: formData.value.identifier,
-      password: formData.value.password,
-    });
-
-    await router.push({ name: "home" });
-  } catch (error_) {
-    error.value = error_;
-  } finally {
-    isLoading.value = false;
-  }
+  await router.push({ name: "home" });
 };
 </script>
 
@@ -75,11 +72,11 @@ const onSubmit = async (event: MouseEvent) => {
       <n-h1>Login</n-h1>
 
       <n-form-item path="identifier" label="username or Email">
-        <n-input v-model:value="formData.identifier" type="text" @keydown.enter.prevent />
+        <n-input v-model:value="formData.identifier" type="text" />
       </n-form-item>
 
       <n-form-item path="password" label="Password">
-        <n-input v-model:value="formData.password" type="password" show-password-on="click" @keydown.enter.prevent />
+        <n-input v-model:value="formData.password" type="password" show-password-on="click" />
       </n-form-item>
 
       <n-collapse-transition :show="Boolean(error)">

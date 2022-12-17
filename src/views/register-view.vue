@@ -1,26 +1,34 @@
 <script setup lang="ts">
-import { useAuthStore } from "@/stores/auth";
+import { usersApi } from "@/api";
+import useErrorMessage from "@/composables/use-error-message";
+import type { CreateUserRequest } from "@/generated";
+import queryKeys from "@/query-keys";
 import { validateEmail, validatePassword, validateUsername } from "@/validators";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import { StatusCodes } from "http-status-codes";
 import type { FormInst, FormRules } from "naive-ui";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const authStore = useAuthStore();
 
-const error = ref<any | undefined>();
-const isLoading = ref(false);
+const queryClient = useQueryClient();
 
-const errorMessage = computed(() => {
-  switch (error.value?.response?.status) {
-    case 409: {
-      return "User already exists.";
-    }
-    default: {
-      return error.value?.message || "Unknown error.";
-    }
-  }
+const {
+  mutateAsync: register,
+  isLoading,
+  error,
+} = useMutation({
+  mutationFn: async (createUserRequest: CreateUserRequest) => {
+    await usersApi.createUser({ createUserRequest });
+    return usersApi.loginUser({ loginUserRequest: createUserRequest });
+  },
+  onSuccess: (user) => {
+    queryClient.setQueryData(queryKeys.users.me.queryKey, user);
+  },
 });
+
+const errorMessage = useErrorMessage(error, { [StatusCodes.CONFLICT]: "User already exists." });
 
 interface FormData {
   email: string;
@@ -63,22 +71,13 @@ const onSubmit = async (event: MouseEvent) => {
     return;
   }
 
-  try {
-    isLoading.value = true;
-    error.value = undefined;
+  await register({
+    name: formData.value.name || undefined,
+    email: formData.value.email,
+    password: formData.value.password,
+  });
 
-    await authStore.register({
-      name: formData.value.name || undefined,
-      email: formData.value.email,
-      password: formData.value.password,
-    });
-
-    await router.push({ name: "home" });
-  } catch (error_) {
-    error.value = error_;
-  } finally {
-    isLoading.value = false;
-  }
+  await router.push({ name: "home" });
 };
 </script>
 
@@ -90,7 +89,7 @@ const onSubmit = async (event: MouseEvent) => {
     style="flex: 1; box-sizing: border-box; padding: 16px; width: min(384px, 100%)"
   >
     <n-form ref="formRef" :model="formData" size="large" :rules="rules">
-      <n-h1>Create Account</n-h1>
+      <n-h1>Create an Account</n-h1>
 
       <n-form-item path="email" label="Email">
         <n-input v-model:value="formData.email" type="text" @keydown.enter.prevent />

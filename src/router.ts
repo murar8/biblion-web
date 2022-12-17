@@ -1,21 +1,23 @@
-import { storeToRefs } from "pinia";
+import { nextTick } from "vue";
 import { createRouter, createWebHistory, type NavigationGuardNext } from "vue-router";
-import { useAuthStore } from "./stores/auth";
+import queryClient from "./query-client";
+import queryKeys from "./query-keys";
 
 const HomeView = () => import("@/views/home-view.vue");
 const PostView = () => import("@/views/post-view.vue");
 const NotFound = () => import("@/views/not-found-view.vue");
 const Register = () => import("@/views/register-view.vue");
 const Login = () => import("@/views/login-view.vue");
-const Verify = () => import("@/views/verify-view.vue");
+const RequestEmailVerification = () => import("@/views/request-email-verification-view.vue");
+const VerifyEmail = () => import("@/views/verify-email-view.vue");
 
-const isAuthenticatedGuard = (to: unknown, from: unknown, next: NavigationGuardNext) => {
-  const { user } = storeToRefs(useAuthStore());
-  if (user.value) next();
+const isAuthenticatedGuard = async (to: unknown, from: unknown, next: NavigationGuardNext) => {
+  const user = await queryClient.fetchQuery(queryKeys.users.me);
+  if (user) next();
   else next({ name: "login" });
 };
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -50,9 +52,16 @@ export default createRouter({
       meta: { title: "Login" },
     },
     {
+      path: "/verify/:code",
+      name: "verify-email",
+      component: VerifyEmail,
+      meta: { title: "Verify your Account" },
+      beforeEnter: [isAuthenticatedGuard],
+    },
+    {
       path: "/verify",
-      name: "verify",
-      component: Verify,
+      name: "request-email-verification",
+      component: RequestEmailVerification,
       meta: { title: "Verify your Account" },
       beforeEnter: [isAuthenticatedGuard],
     },
@@ -64,3 +73,14 @@ export default createRouter({
     },
   ],
 });
+
+router.afterEach((to) => {
+  // Set the page title using the route `meta` field.
+  // Use next tick to handle router history correctly.
+  // See: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+  nextTick(() => {
+    document.title = typeof to.meta.title === "string" ? to.meta.title : "Biblion";
+  });
+});
+
+export default router;

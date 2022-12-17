@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useColorModeStore } from "@/stores/color-mode";
+import { isDark } from "@/composables/dark";
 import { StateEffect } from "@codemirror/state";
 import type { ViewUpdate } from "@codemirror/view";
 import { lineNumbers } from "@codemirror/view";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { EditorView, minimalSetup } from "codemirror";
 import { useThemeVars } from "naive-ui";
-import { storeToRefs } from "pinia";
 import { changeColor } from "seemly";
 import { computed, onMounted, ref, shallowRef, toRef, watch, watchEffect } from "vue";
 
@@ -23,7 +22,6 @@ const emit = defineEmits<{
 }>();
 
 const themeVars = useThemeVars();
-const { colorMode } = storeToRefs(useColorModeStore());
 
 const parentRef = ref<HTMLElement | undefined>();
 const editorRef = shallowRef<EditorView | undefined>();
@@ -46,7 +44,7 @@ const extensions = computed(() => {
   return [
     minimalSetup,
     lineNumbers(),
-    colorMode.value === "dark" ? githubDark : githubLight,
+    isDark.value ? githubDark : githubLight,
     EditorView.updateListener.of(onUpdateContent),
     EditorView.editable.of(!readonly.value),
   ];
