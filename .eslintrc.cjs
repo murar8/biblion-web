@@ -4,6 +4,7 @@ require("@rushstack/eslint-patch/modern-module-resolution");
 module.exports = {
   root: true,
   ignorePatterns: ["components.d.ts"],
+  plugins: ["unused-imports"],
   extends: [
     "eslint:recommended",
     "plugin:import/recommended",
@@ -28,5 +29,8 @@ module.exports = {
     "unicorn/no-null": "off",
     "import/order": "warn",
     "import/newline-after-import": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-vars": "warn",
   },
 };
