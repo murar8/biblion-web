@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { usersApi } from "@/api";
-import queryKeys from "@/query-keys";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import type { PopoverInst } from "naive-ui";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import queryKeys from "@/query-keys";
+import { usersApi } from "@/api";
 
 const router = useRouter();
 const queryClient = useQueryClient();

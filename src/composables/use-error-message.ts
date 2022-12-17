@@ -1,6 +1,6 @@
-import { ResponseError } from "@/generated";
 import { getReasonPhrase, StatusCodes } from "http-status-codes";
 import { computed, type Ref } from "vue";
+import { ResponseError } from "@/generated";
 
 export default function useErrorMessage(error: Ref<unknown>, statusMapper?: Partial<Record<StatusCodes, string>>) {
   return computed(() => {

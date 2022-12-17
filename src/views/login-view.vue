@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { usersApi } from "@/api";
-import useErrorMessage from "@/composables/use-error-message";
-import type { LoginUserRequest } from "@/generated";
-import queryKeys from "@/query-keys";
-import isEmail from "@/utils/is-email";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { StatusCodes } from "http-status-codes";
 import type { FormInst, FormRules } from "naive-ui";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { usersApi } from "@/api";
+import useErrorMessage from "@/composables/use-error-message";
+import type { LoginUserRequest } from "@/generated";
+import queryKeys from "@/query-keys";
+import isEmail from "@/utils/is-email";
 
 const router = useRouter();
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { usersApi } from "@/api";
-import useErrorMessage from "@/composables/use-error-message";
-import queryKeys from "@/query-keys";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { StatusCodes } from "http-status-codes";
 import { onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import queryKeys from "@/query-keys";
+import useErrorMessage from "@/composables/use-error-message";
+import { usersApi } from "@/api";
 
 const router = useRouter();
 const route = useRoute();

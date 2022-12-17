@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useMutation, useQuery } from "@tanstack/vue-query";
 import { usersApi } from "@/api";
 import useErrorMessage from "@/composables/use-error-message";
 import queryKeys from "@/query-keys";
-import { useMutation, useQuery } from "@tanstack/vue-query";
 
 const { data: user } = useQuery(queryKeys.users.me);
 

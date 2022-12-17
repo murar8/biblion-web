@@ -29,7 +29,6 @@
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@rushstack/eslint-patch": "^1.2.0",
-    "@tanstack/eslint-plugin-query": "^4.20.2",
     "@types/node": "^18.11.16",
     "@typescript-eslint/parser": "^5.46.1",
     "@vicons/fa": "^0.12.0",

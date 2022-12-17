@@ -3,8 +3,8 @@
  */
 
 import { readdirSync } from "node:fs";
-import { resolveModule } from "local-pkg";
 import { dirname } from "node:path";
+import { resolveModule } from "local-pkg";
 import type { ComponentResolver } from "unplugin-vue-components/types";
 
 let cachedNames: Set<string>;

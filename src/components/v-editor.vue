@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { isDark } from "@/composables/dark";
 import { StateEffect } from "@codemirror/state";
 import type { ViewUpdate } from "@codemirror/view";
 import { lineNumbers } from "@codemirror/view";
@@ -8,6 +7,7 @@ import { EditorView, minimalSetup } from "codemirror";
 import { useThemeVars } from "naive-ui";
 import { changeColor } from "seemly";
 import { computed, onMounted, ref, shallowRef, toRef, watch, watchEffect } from "vue";
+import { isDark } from "@/composables/dark";
 
 const props = defineProps<{
   modelValue?: string;

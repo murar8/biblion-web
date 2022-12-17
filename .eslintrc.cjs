@@ -12,7 +12,6 @@ module.exports = {
     "plugin:vue/vue3-recommended",
     "@vue/eslint-config-typescript/recommended",
     "@vue/eslint-config-prettier",
-    "plugin:@tanstack/eslint-plugin-query/recommended",
   ],
   parserOptions: {
     ecmaVersion: "latest",
@@ -27,6 +26,7 @@ module.exports = {
     "unicorn/prevent-abbreviations": "off",
     "unicorn/no-useless-undefined": "off",
     "unicorn/no-null": "off",
-    "@tanstack/query/prefer-query-object-syntax": "off",
+    "import/order": "warn",
+    "import/newline-after-import": "warn",
   },
 };
