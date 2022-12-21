@@ -80,7 +80,9 @@ declare module '@vue/runtime-core' {
     VerifyEmailView: typeof import('./src/views/verify-email-view.vue')['default']
     'VerifyEmailView.1': typeof import('./src/views/verify-email-view.1.vue')['default']
     VerifyView: typeof import('./src/views/verify-view.vue')['default']
+    VErrorCollapse: typeof import('./src/components/v-error-collapse.vue')['default']
     VScaleFadeTransition: typeof import('./src/components/v-scale-fade-transition.vue')['default']
+    'VScaleFadeTransition.1': typeof import('./src/components/v-scale-fade-transition.1.vue')['default']
     XAnkh: typeof import("@vicons/fa")["Ankh"]
   }
 }

@@ -79,11 +79,7 @@ const onSubmit = async (event: MouseEvent) => {
         <n-input v-model:value="formData.password" type="password" show-password-on="click" />
       </n-form-item>
 
-      <n-collapse-transition :show="Boolean(error)">
-        <n-form-item>
-          <n-text type="error"> Error:{{ errorMessage }} </n-text>
-        </n-form-item>
-      </n-collapse-transition>
+      <v-error-collapse :error-message="errorMessage" />
 
       <n-form-item>
         <n-space style="width: 100%" :wrap-item="false">
@@ -101,7 +97,7 @@ const onSubmit = async (event: MouseEvent) => {
           <n-button style="flex: 1" @click="router.push({ name: 'register' })">
             <template #icon>
               <n-icon>
-                <fa-user />
+                <fa-user-plus />
               </n-icon>
             </template>
 

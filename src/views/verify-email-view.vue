@@ -35,7 +35,9 @@ onBeforeMount(verifyEmail);
 
     <n-space v-else vertical>
       <n-h3>
-        <n-text type="error"> Error: {{ errorMessage }} </n-text>
+        <n-text type="error">
+          Error: <n-text code>{{ errorMessage }}</n-text>
+        </n-text>
       </n-h3>
     </n-space>
   </n-space>

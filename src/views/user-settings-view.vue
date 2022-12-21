@@ -150,10 +150,6 @@ const onSubmit = async (event: MouseEvent) => {
       </n-collapse-transition>
     </n-space>
 
-    <n-collapse-transition :show="Boolean(error)">
-      <n-form-item>
-        <n-text type="error"> Error: {{ errorMessage }} </n-text>
-      </n-form-item>
-    </n-collapse-transition>
+    <v-error-collapse :error-message="errorMessage" />
   </n-space>
 </template>

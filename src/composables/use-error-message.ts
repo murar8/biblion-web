@@ -9,7 +9,7 @@ export default function useErrorMessage(error: Ref<unknown>, statusMapper?: Part
       return statusMapper?.[status] || getReasonPhrase(status);
     } else if (error.value instanceof Error) {
       return error.value.message;
-    } else if (error) {
+    } else if (error.value) {
       return "Unknown error.";
     } else {
       return null;
