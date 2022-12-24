@@ -14,7 +14,7 @@ const UserSettings = () => import("@/views/user-settings-view.vue");
 const ResetPassword = () => import("@/views/reset-password-view.vue");
 
 const isAuthenticatedGuard = async (to: unknown, from: unknown, next: NavigationGuardNext) => {
-  const user = await queryClient.fetchQuery(queryKeys.users.me);
+  const user = await queryClient.ensureQueryData(queryKeys.users.me);
   if (user) next();
   else next({ name: "login" });
 };

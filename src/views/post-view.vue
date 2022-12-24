@@ -1,70 +1,98 @@
 <script lang="ts">
 export default {
   async beforeRouteEnter(to, from, next) {
-    // const postStore = usePostStore();
-    // TODO
-    // try {
-    //   if (to.name === "post") await postStore.fetchPost(to.params.id as string);
-    next();
-    // } catch (error) {
-    //   if (error instanceof ResponseError && error.response.status === 404) {
-    //     next("/not-found");
-    //   } else {
-    //     throw error;
-    //   }
-    // }
+    try {
+      if (to.name === "post") {
+        to.meta.post = await queryClient.ensureQueryData(queryKeys.posts.detail(to.params.id as string));
+      }
+      next();
+    } catch (error) {
+      if (error instanceof ResponseError && error.response.status === 404) {
+        next({ name: "not-found" });
+      } else {
+        throw error;
+      }
+    }
   },
 };
 </script>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { useRoute } from "vue-router";
+import { useMutation } from "@tanstack/vue-query";
+import { NSpace, NInput, NSelect, NTag, NButton, NIcon } from "naive-ui";
+import queryKeys from "@/query-keys";
+import queryClient from "@/query-client";
+import { ResponseError, type CreatePostRequest, type PostResponse } from "@/generated";
+import { postsApi } from "@/api";
+import router from "@/router";
+import useErrorMessage from "@/composables/use-error-message";
 
-// const postStore = usePostStore();
 const route = useRoute();
-const isEditing = ref(route.name === "new-post");
 
-const savePost = async () => {
-  // await postStore.savePost();
-  // isEditing.value = false;
-};
+const isEditing = ref(route.name === "new-post");
+const post = reactive<PostResponse | CreatePostRequest>((route.meta.post as PostResponse) || { content: "" });
+
+const {
+  mutate: savePost,
+  isLoading,
+  error,
+} = useMutation({
+  mutationFn: async () => {
+    return "id" in post
+      ? postsApi.updatePost({ postId: post.id, createPostRequest: post })
+      : postsApi.createPost({ createPostRequest: post });
+  },
+  onSuccess: (data) => {
+    queryClient.setQueryData(queryKeys.posts.detail(data.id).queryKey, data);
+    Object.assign(post, data);
+    router.push({ name: "post", params: { id: data.id }, replace: true });
+  },
+});
+
+const errorMessage = useErrorMessage(error);
 </script>
 
 <template>
   <n-space vertical class="container" :wrap-item="false" size="large">
-    <!-- <n-space :wrap-item="false" size="large">
-      <n-input
-        v-model:value="postStore.post.name"
-        :readonly="!isEditing"
-        type="text"
-        placeholder="Name"
-        class="name-input"
-      />
+    <n-space :wrap-item="false" size="large">
+      <n-input v-model:value="post.name" :readonly="!isEditing" type="text" placeholder="Name" class="name-input" />
 
       <n-select
         v-if="isEditing"
-        v-model:value="postStore.post.language"
+        v-model:value="post.language"
         clearable
         filterable
         placeholder="Language"
         class="language-select"
         :options="[]"
       />
-      <n-tag v-else-if="postStore.post.language" size="large" round>
-        {{ postStore.post.language }}
+
+      <n-tag v-else-if="post.language" size="large" round>
+        {{ post.language }}
       </n-tag>
     </n-space>
 
-    <v-editor v-model="postStore.post.content" :readonly="!isEditing" style="flex: 1" placeholder="Content" /> -->
+    <v-editor v-model="post.content" :readonly="!isEditing" style="flex: 1" placeholder="Content" />
+
+    <v-error-collapse :error-message="errorMessage" />
 
     <v-scale-fade-transition>
-      <n-button v-if="isEditing" round type="primary" @click="savePost()">
+      <n-button
+        v-if="isEditing"
+        :disabled="!post.content"
+        round
+        :loading="isLoading"
+        :type="error ? 'error' : 'primary'"
+        @click="savePost()"
+      >
         <template #icon>
           <n-icon><fa-save /></n-icon>
         </template>
         Save
       </n-button>
+
       <n-button v-else round type="primary" @click="isEditing = true">
         <template #icon>
           <n-icon><fa-edit /></n-icon>
@@ -78,7 +106,9 @@ const savePost = async () => {
 <style scoped>
 .container {
   flex: 1;
-  margin: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
 }
 
 .name-input {
