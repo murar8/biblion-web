@@ -25,14 +25,16 @@ import { useRoute } from "vue-router";
 import { postsApi } from "@/api";
 import useErrorMessage from "@/composables/use-error-message";
 import { ResponseError, type CreatePostRequest, type PostResponse } from "@/generated";
-import { languages } from "@/languages";
 import queryClient from "@/query-client";
 import queryKeys from "@/query-keys";
 import router from "@/router";
+import languageNames from "@/language-names";
 
-const languageOptions = computed<SelectOption[]>(() => {
-  return languages.map(({ name }) => ({ label: name, value: name }));
-});
+const languageOptions = computed<SelectOption[]>(() =>
+  Object.entries(languageNames)
+    .sort(([, a], [, b]) => a.localeCompare(b, undefined, { sensitivity: "base" }))
+    .map(([value, label]) => ({ value, label }))
+);
 
 const route = useRoute();
 

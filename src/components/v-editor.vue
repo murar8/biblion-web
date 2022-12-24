@@ -1,19 +1,20 @@
 <script setup lang="ts">
+import type { LanguageSupport } from "@codemirror/language";
 import { StateEffect } from "@codemirror/state";
 import type { ViewUpdate } from "@codemirror/view";
 import { lineNumbers } from "@codemirror/view";
 import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import { EditorView, minimalSetup } from "codemirror";
-import { useThemeVars } from "naive-ui";
+import { useMessage, useThemeVars } from "naive-ui";
 import { changeColor } from "seemly";
 import { computed, onMounted, ref, shallowRef, toRef, watch, watchEffect } from "vue";
+import { fetchLanguageSupport, type LanguageSupportMode } from "@/language-support";
 import { isDark } from "@/composables/dark";
-import { languagesByName } from "@/languages";
 
 const props = defineProps<{
   modelValue?: string;
   readonly?: boolean;
-  language?: string;
+  language?: LanguageSupportMode;
 }>();
 
 const modelValue = toRef(props, "modelValue");
@@ -25,9 +26,20 @@ const emit = defineEmits<{
 }>();
 
 const themeVars = useThemeVars();
+const message = useMessage();
 
 const parentRef = ref<HTMLElement | undefined>();
 const editorRef = shallowRef<EditorView | undefined>();
+
+const languageExtension = ref<LanguageSupport | undefined>();
+
+watchEffect(async () => {
+  try {
+    languageExtension.value = language.value ? await fetchLanguageSupport(language.value) : undefined;
+  } catch {
+    message.error("Failed to load language support package.");
+  }
+});
 
 watchEffect(() => {
   if (editorRef.value && modelValue.value !== editorRef.value!.state.doc.toString()) {
@@ -54,10 +66,7 @@ const extensions = computed(() => {
   if (isDark.value) extensions.push(githubDark);
   else extensions.push(githubLight);
 
-  if (language.value) {
-    const languageMode = languagesByName[language.value]?.mode;
-    if (languageMode) extensions.push(languageMode);
-  }
+  if (languageExtension.value) extensions.push(languageExtension.value);
 
   return extensions;
 });
