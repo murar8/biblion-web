@@ -12,6 +12,7 @@
     "codegen": "openapi-generator-cli generate"
   },
   "dependencies": {
+    "@codemirror/language-data": "^6.1.0",
     "@lukemorales/query-key-factory": "^1.0.3",
     "@tanstack/vue-query": "^4.20.5",
     "@uiw/codemirror-theme-github": "^4.19.4",

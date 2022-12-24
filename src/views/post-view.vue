@@ -18,16 +18,21 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { useRoute } from "vue-router";
 import { useMutation } from "@tanstack/vue-query";
-import { NSpace, NInput, NSelect, NTag, NButton, NIcon } from "naive-ui";
-import queryKeys from "@/query-keys";
-import queryClient from "@/query-client";
-import { ResponseError, type CreatePostRequest, type PostResponse } from "@/generated";
+import { NButton, NIcon, NInput, NSelect, NSpace, NTag, type SelectOption } from "naive-ui";
+import { computed, reactive, ref } from "vue";
+import { useRoute } from "vue-router";
 import { postsApi } from "@/api";
-import router from "@/router";
 import useErrorMessage from "@/composables/use-error-message";
+import { ResponseError, type CreatePostRequest, type PostResponse } from "@/generated";
+import { languages } from "@/languages";
+import queryClient from "@/query-client";
+import queryKeys from "@/query-keys";
+import router from "@/router";
+
+const languageOptions = computed<SelectOption[]>(() => {
+  return languages.map(({ name }) => ({ label: name, value: name }));
+});
 
 const route = useRoute();
 
@@ -66,7 +71,7 @@ const errorMessage = useErrorMessage(error);
         filterable
         placeholder="Language"
         class="language-select"
-        :options="[]"
+        :options="languageOptions"
       />
 
       <n-tag v-else-if="post.language" size="large" round>
@@ -74,7 +79,13 @@ const errorMessage = useErrorMessage(error);
       </n-tag>
     </n-space>
 
-    <v-editor v-model="post.content" :readonly="!isEditing" style="flex: 1" placeholder="Content" />
+    <v-editor
+      v-model="post.content"
+      :language="post.language"
+      :readonly="!isEditing"
+      placeholder="Content"
+      style="flex: 1"
+    />
 
     <v-error-collapse :error-message="errorMessage" />
 

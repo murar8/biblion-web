@@ -1,9 +1,11 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
+
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
 
   "compilerOptions": {
     "baseUrl": ".",
+    "lib": ["ES2016", "DOM", "DOM.Iterable", "ES2019.Object"], // TODO: check if we need a polyfill
     "paths": {
       "@/*": ["./src/*"]
     }

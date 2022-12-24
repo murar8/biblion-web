@@ -8,14 +8,17 @@ import { useThemeVars } from "naive-ui";
 import { changeColor } from "seemly";
 import { computed, onMounted, ref, shallowRef, toRef, watch, watchEffect } from "vue";
 import { isDark } from "@/composables/dark";
+import { languagesByName } from "@/languages";
 
 const props = defineProps<{
   modelValue?: string;
   readonly?: boolean;
+  language?: string;
 }>();
 
 const modelValue = toRef(props, "modelValue");
 const readonly = toRef(props, "readonly");
+const language = toRef(props, "language");
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
@@ -41,13 +44,22 @@ const onUpdateContent = (viewUpdate: ViewUpdate) => {
 };
 
 const extensions = computed(() => {
-  return [
+  const extensions = [
     minimalSetup,
     lineNumbers(),
-    isDark.value ? githubDark : githubLight,
     EditorView.updateListener.of(onUpdateContent),
     EditorView.editable.of(!readonly.value),
   ];
+
+  if (isDark.value) extensions.push(githubDark);
+  else extensions.push(githubLight);
+
+  if (language.value) {
+    const languageMode = languagesByName[language.value]?.mode;
+    if (languageMode) extensions.push(languageMode);
+  }
+
+  return extensions;
 });
 
 watch(extensions, (extensions) => {
