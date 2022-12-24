@@ -15,7 +15,7 @@
     "@lukemorales/query-key-factory": "^1.0.3",
     "@tanstack/vue-query": "^4.20.5",
     "@uiw/codemirror-theme-github": "^4.19.4",
-    "@vueuse/core": "^9.8.2",
+    "@vueuse/core": "^9.9.0",
     "@zxcvbn-ts/core": "^2.1.0",
     "@zxcvbn-ts/language-common": "^2.0.1",
     "@zxcvbn-ts/language-en": "^2.1.0",
