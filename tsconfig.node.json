@@ -1,5 +1,5 @@
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
-  "include": ["vite.config.*", "vitest.config.*", "cypress.config.*"],
+  "include": ["vite.config.*", "icon-component-resolver.ts"],
   "compilerOptions": { "composite": true, "types": ["node"] }
 }

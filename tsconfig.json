@@ -6,14 +6,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "lib": ["ES2016", "DOM", "DOM.Iterable", "ES2019.Object"], // TODO: check if we need a polyfill
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "paths": { "@/*": ["./src/*"] }
   },
 
-  "references": [
-    {
-      "path": "./tsconfig.config.json"
-    }
-  ]
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
