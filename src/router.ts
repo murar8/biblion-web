@@ -19,6 +19,12 @@ const isAuthenticatedGuard = async (to: unknown, from: unknown, next: Navigation
   else next({ name: "login" });
 };
 
+const verifiedUserGuard = async (to: unknown, from: unknown, next: NavigationGuardNext) => {
+  const user = await queryClient.ensureQueryData(queryKeys.users.me);
+  if (user?.verified) next();
+  else next({ name: "request-email-verification" });
+};
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -33,7 +39,7 @@ const router = createRouter({
       name: "new-post",
       component: PostView,
       meta: { title: "Create Post" },
-      beforeEnter: [isAuthenticatedGuard],
+      beforeEnter: [verifiedUserGuard],
     },
     {
       path: "/posts/:id",

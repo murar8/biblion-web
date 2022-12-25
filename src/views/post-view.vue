@@ -18,7 +18,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { useMutation } from "@tanstack/vue-query";
+import { useMutation, useQuery } from "@tanstack/vue-query";
 import { NButton, NIcon, NInput, NSelect, NSpace, NTag, type SelectOption } from "naive-ui";
 import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
@@ -42,6 +42,8 @@ const route = useRoute();
 const isEditing = ref(route.name === "new-post");
 const post = reactive<PostResponse | CreatePostRequest>((route.meta.post as PostResponse) || { content: "" });
 
+const { data: user } = useQuery(queryKeys.users.me);
+
 const {
   mutate: savePost,
   isLoading,
@@ -55,6 +57,7 @@ const {
   onSuccess: (data) => {
     queryClient.setQueryData(queryKeys.posts.detail(data.id).queryKey, data);
     Object.assign(post, data);
+    isEditing.value = false;
     router.push({ name: "post", params: { id: data.id }, replace: true });
   },
 });
@@ -107,7 +110,12 @@ const errorMessage = useErrorMessage(error);
         Save
       </n-button>
 
-      <n-button v-else round type="primary" @click="isEditing = true">
+      <n-button
+        v-else-if="'ownerId' in post && post.ownerId === user?.id"
+        round
+        type="primary"
+        @click="isEditing = true"
+      >
         <template #icon>
           <n-icon><fa-edit /></n-icon>
         </template>
