@@ -7,13 +7,13 @@ import queryKeys from "@/query-keys";
 const { data: user } = useQuery(queryKeys.users.me);
 
 const {
-  mutateAsync: requestEmailVerification,
+  mutateAsync: requestPasswordReset,
   error,
   isLoading,
   isSuccess,
 } = useMutation({
   mutationFn: async () => {
-    await usersApi.requestEmailVerification();
+    await usersApi.requestPasswordReset();
   },
 });
 
@@ -23,25 +23,25 @@ const errorMessage = useErrorMessage(error);
 <template>
   <n-space vertical align="center" justify="center" style="flex: 1">
     <n-h4 size="large">
-      Send an email to <n-tag>{{ user!.email }}</n-tag> to confirm you are the owner of the address.
+      You will receive an email to <n-tag>{{ user!.email }}</n-tag> containing the password reset link.
     </n-h4>
 
     <n-button
       size="large"
       :type="error ? 'error' : isSuccess ? 'success' : 'primary'"
       :loading="isLoading"
-      @click="requestEmailVerification"
+      @click="requestPasswordReset"
     >
       <template #icon>
         <n-icon><fa-mail-bulk /></n-icon>
       </template>
       <template #default>
-        {{ isSuccess ? "Request Another Code" : "Request Verication Code" }}
+        {{ isSuccess ? "Request Another Code" : "Request Reset Code" }}
       </template>
     </n-button>
 
     <n-collapse-transition :show="isSuccess">
-      <n-text type="success"> Verification code sent. Check your inbox 🚀 </n-text>
+      <n-text type="success"> Reset code sent. Check your inbox 🚀 </n-text>
     </n-collapse-transition>
 
     <v-error-collapse :error-message="errorMessage" />
