@@ -1,7 +1,7 @@
 import type { LanguageSupportMode } from "./language-support";
 
 const names: Record<LanguageSupportMode, string> = {
-  apl: "APL",
+  apl: "A Programming Language (APL)",
   asciiArmor: "ASCII Armor (PGP)",
   asn1: "Abstract Syntax Notation One (ASN.1)",
   asterisk: "Asterisk",
@@ -33,20 +33,20 @@ const names: Record<LanguageSupportMode, string> = {
   elm: "Elm",
   erlang: "Erlang",
   esper: "Esper",
-  ez80: "eZ80 Assembler",
+  ez80: "Assembler (eZ80)",
   factor: "Factor",
   fcl: "Fuzzy Control Language (FCL)",
   forth: "Forth",
   fortran: "Fortran",
   fSharp: "F#",
-  gas: "GNU Assembler",
-  gasArm: "GNU Assembler (ARM)",
+  gas: "Assembler (GNU)",
+  gasArm: "Assembler (GNU, ARM)",
   gherkin: "Gherkin",
   go: "Go",
   gpSQL: "Greenplum SQL (GPSQL)",
-  gql: "Graph Query Language",
-  groovy: "Groovy",
-  gss: "Groovy",
+  gql: "Google Query Language (GQL)",
+  groovy: "Apache Groovy",
+  gss: "Closure Stylesheets (GSS)",
   haskell: "Haskell",
   haxe: "Haxe",
   hive: "Hive",
@@ -59,7 +59,7 @@ const names: Record<LanguageSupportMode, string> = {
   jinja2: "Jinja2",
   json: "JSON",
   jsonld: "JSON-LD",
-  jsx: "JSX",
+  jsx: "Javascript (JSX)",
   julia: "Julia",
   kotlin: "Kotlin",
   less: "LESS",
@@ -149,7 +149,7 @@ const names: Record<LanguageSupportMode, string> = {
   xu: "Xu",
   yacas: "Yacas",
   yaml: "YAML",
-  z80: "Z80 Assembler",
+  z80: "Assembler (Z80)",
 };
 
 export default names;

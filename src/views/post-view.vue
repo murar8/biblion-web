@@ -29,6 +29,7 @@ import queryClient from "@/query-client";
 import queryKeys from "@/query-keys";
 import router from "@/router";
 import languageNames from "@/language-names";
+import type { LanguageSupportMode } from "@/language-support";
 
 const languageOptions = computed<SelectOption[]>(() =>
   Object.entries(languageNames)
@@ -76,8 +77,8 @@ const errorMessage = useErrorMessage(error);
         :options="languageOptions"
       />
 
-      <n-tag v-else-if="post.language" size="large" round>
-        {{ post.language }}
+      <n-tag v-else-if="post.language" size="large">
+        {{ languageNames[post.language as LanguageSupportMode] || post.language }}
       </n-tag>
     </n-space>
 
@@ -131,6 +132,6 @@ const errorMessage = useErrorMessage(error);
 
 .language-select {
   flex: 1;
-  min-width: 192px;
+  min-width: 256px;
 }
 </style>
