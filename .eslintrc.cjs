@@ -18,7 +18,13 @@ module.exports = {
     ecmaVersion: "latest",
   },
   settings: {
-    "import/resolver": { typescript: true },
+    "import/resolver": {
+      typescript: {
+        // Project references are not yet supported.
+        // See https://github.com/import-js/eslint-import-resolver-typescript/issues/94
+        project: ["tsconfig.json", "tsconfig.app.json", "tsconfig.node.json"],
+      },
+    },
   },
   rules: {
     "@typescript-eslint/no-empty-function": "off",

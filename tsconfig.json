@@ -1,13 +1,4 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
-
-  "compilerOptions": {
-    "baseUrl": ".",
-    "lib": ["ESNext"], // @vitejs/plugin-legacy will add all the necessary polyfills.
-    "paths": { "@/*": ["./src/*"] }
-  },
-
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "files": [],
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }
