@@ -2,6 +2,8 @@
 
 This project contains the frontend functionality for the biblion project, a simple pastebin-like file upload service.
 
+The backend repository is hosted at [https://github.com/murar8/biblion-api]()
+
 ## Local development
 
 The project comes with a preconfigured development container configuration and requires no additional setup.
