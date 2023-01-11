@@ -7,7 +7,9 @@ const title = useTitle(undefined, { observe: true });
 <template>
   <n-page-header justify="space-between" style="padding: 16px">
     <template #avatar>
-      <n-avatar src="/logo-32.png" />
+      <router-link :to="{ name: 'home' }">
+        <n-avatar src="/logo-32.png" />
+      </router-link>
     </template>
     <template #title> {{ title }} </template>
     <template #extra>
