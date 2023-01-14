@@ -3,15 +3,16 @@ import { createRouter, createWebHistory, type NavigationGuardNext } from "vue-ro
 import queryClient from "./query-client";
 import queryKeys from "./query-keys";
 
+const EditPostView = () => import("@/views/edit-post-view.vue");
 const HomeView = () => import("@/views/home-view.vue");
-const PostView = () => import("@/views/post-view.vue");
-const NotFound = () => import("@/views/not-found-view.vue");
-const Register = () => import("@/views/register-view.vue");
 const Login = () => import("@/views/login-view.vue");
+const NotFound = () => import("@/views/not-found-view.vue");
+const PostView = () => import("@/views/post-view.vue");
+const Register = () => import("@/views/register-view.vue");
 const RequestEmailVerification = () => import("@/views/request-email-verification-view.vue");
-const VerifyEmail = () => import("@/views/verify-email-view.vue");
-const UserSettings = () => import("@/views/user-settings-view.vue");
 const ResetPassword = () => import("@/views/reset-password-view.vue");
+const UserSettings = () => import("@/views/user-settings-view.vue");
+const VerifyEmail = () => import("@/views/verify-email-view.vue");
 
 const isAuthenticatedGuard = async (to: unknown, from: unknown, next: NavigationGuardNext) => {
   const user = await queryClient.ensureQueryData(queryKeys.users.me);
@@ -35,17 +36,16 @@ const router = createRouter({
       meta: { title: "Home" },
     },
     {
-      path: "/posts/new",
-      name: "new-post",
-      component: PostView,
-      meta: { title: "Create Post" },
-      beforeEnter: [verifiedUserGuard],
-    },
-    {
       path: "/posts/:id",
       name: "post",
       component: PostView,
       meta: { title: "Post" },
+    },
+    {
+      path: "/posts/edit/:id?",
+      name: "edit-post",
+      component: EditPostView,
+      meta: { title: "Edit Post" },
     },
     {
       path: "/register",

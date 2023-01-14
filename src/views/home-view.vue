@@ -84,7 +84,7 @@ watchPostEffect((onCleanup) => {
 
       <n-h4> Biblion is a tool created to upload files and share them with ease.</n-h4>
 
-      <n-button v-if="user" type="primary" style="width: 100%" @click="router.push({ name: 'new-post' })">
+      <n-button v-if="user" type="primary" style="width: 100%" @click="router.push({ name: 'edit-post' })">
         <template #icon>
           <n-icon>
             <fa-sticky-note />

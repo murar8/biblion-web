@@ -17,7 +17,10 @@ const {
   error: logoutError,
 } = useMutation({
   mutationFn: async () => usersApi.logoutUser(),
-  onSuccess: () => queryClient.setQueryData(queryKeys.users.me.queryKey, null),
+  onSuccess: () => {
+    queryClient.setQueryData(queryKeys.users.me.queryKey, null);
+    router.push({ name: "home" });
+  },
 });
 
 const popoverRef = ref<PopoverInst | undefined>();
