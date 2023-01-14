@@ -12,7 +12,7 @@ export async function validateUsername(username: string) {
     throw new Error("Must be at least 3 characters.");
   }
 
-  if (!/^([\da-z]|[._-](?![._-]))+$/.test(username)) {
+  if (!/^([\dA-Za-z]|[._-](?![._-]))+$/.test(username)) {
     throw new Error("Must be composed of alphanumeric characters, dots, hyphens and underscores.");
   }
 }

@@ -21,8 +21,8 @@ const errorMessage = useErrorMessage(error);
 </script>
 
 <template>
-  <n-space vertical align="center" justify="center" style="flex: 1">
-    <n-h4 size="large">
+  <n-space vertical align="stretch" justify="center" style="flex: 1; padding: 16px">
+    <n-h4 size="large" style="text-align: center">
       Send an email to <n-tag>{{ user!.email }}</n-tag> to confirm you are the owner of the address.
     </n-h4>
 
@@ -30,11 +30,13 @@ const errorMessage = useErrorMessage(error);
       size="large"
       :type="error ? 'error' : isSuccess ? 'success' : 'primary'"
       :loading="isLoading"
-      @click="requestEmailVerification"
+      style="width: 100%"
+      @click="() => requestEmailVerification()"
     >
       <template #icon>
         <n-icon><fa-mail-bulk /></n-icon>
       </template>
+
       <template #default>
         {{ isSuccess ? "Request Another Code" : "Request Verication Code" }}
       </template>

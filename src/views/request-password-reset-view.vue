@@ -21,8 +21,8 @@ const errorMessage = useErrorMessage(error);
 </script>
 
 <template>
-  <n-space vertical align="center" justify="center" style="flex: 1">
-    <n-h4 size="large">
+  <n-space vertical align="stretch" justify="center" style="flex: 1">
+    <n-h4 size="large" style="text-align: center">
       You will receive an email to <n-tag>{{ user!.email }}</n-tag> containing the password reset link.
     </n-h4>
 
@@ -30,7 +30,8 @@ const errorMessage = useErrorMessage(error);
       size="large"
       :type="error ? 'error' : isSuccess ? 'success' : 'primary'"
       :loading="isLoading"
-      @click="requestPasswordReset"
+      style="width: 100%"
+      @click="() => requestPasswordReset()"
     >
       <template #icon>
         <n-icon><fa-mail-bulk /></n-icon>

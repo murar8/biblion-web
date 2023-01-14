@@ -11,7 +11,6 @@ import queryKeys from "@/query-keys";
 import isEmail from "@/utils/is-email";
 
 const router = useRouter();
-
 const queryClient = useQueryClient();
 
 const {
@@ -41,9 +40,7 @@ const rules: FormRules = {
 const formData = ref<FormData>({ identifier: "", password: "" });
 const formRef = ref<FormInst | undefined>();
 
-const onSubmit = async (event: MouseEvent) => {
-  event.preventDefault();
-
+const onSubmit = async () => {
   try {
     await formRef.value!.validate();
   } catch {
@@ -68,10 +65,17 @@ const onSubmit = async (event: MouseEvent) => {
     justify="center"
     style="flex: 1; box-sizing: border-box; padding: 16px; width: min(384px, 100%)"
   >
-    <n-form ref="formRef" :model="formData" size="large" :rules="rules" :validate-messages="{ required: 'Required.' }">
+    <n-form
+      ref="formRef"
+      :model="formData"
+      size="large"
+      :rules="rules"
+      :validate-messages="{ required: 'Required.' }"
+      @submit.prevent="onSubmit"
+    >
       <n-h1>Login</n-h1>
 
-      <n-form-item path="identifier" label="username or Email">
+      <n-form-item path="identifier" label="Username or Email">
         <n-input v-model:value="formData.identifier" type="text" />
       </n-form-item>
 
@@ -83,7 +87,7 @@ const onSubmit = async (event: MouseEvent) => {
 
       <n-form-item>
         <n-space style="width: 100%" :wrap-item="false">
-          <n-button :loading="isLoading" :type="error ? 'error' : 'primary'" style="flex: 1" @click="onSubmit">
+          <n-button :loading="isLoading" :type="error ? 'error' : 'primary'" style="flex: 1" attr-type="submit">
             <template #icon>
               <n-icon>
                 <fa-exclamation-circle v-if="error" />

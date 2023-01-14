@@ -11,7 +11,6 @@ import queryKeys from "@/query-keys";
 import { validateEmail, validatePassword, validateUsername } from "@/validators";
 
 const router = useRouter();
-
 const queryClient = useQueryClient();
 
 const {
@@ -62,9 +61,7 @@ const rules: FormRules = {
 const formData = ref<FormData>({ email: "", name: "", password: "" });
 const formRef = ref<FormInst | undefined>();
 
-const onSubmit = async (event: MouseEvent) => {
-  event.preventDefault();
-
+const onSubmit = async () => {
   try {
     await formRef.value!.validate();
   } catch {
@@ -88,26 +85,26 @@ const onSubmit = async (event: MouseEvent) => {
     justify="center"
     style="flex: 1; box-sizing: border-box; padding: 16px; width: min(384px, 100%)"
   >
-    <n-form ref="formRef" :model="formData" size="large" :rules="rules">
+    <n-form ref="formRef" :model="formData" size="large" :rules="rules" @submit.prevent="onSubmit">
       <n-h1>Create an Account</n-h1>
 
       <n-form-item path="email" label="Email">
-        <n-input v-model:value="formData.email" type="text" @keydown.enter.prevent />
+        <n-input v-model:value="formData.email" type="text" />
       </n-form-item>
 
       <n-form-item path="name" label="Username">
-        <n-input v-model:value="formData.name" type="text" clearable @keydown.enter.prevent />
+        <n-input v-model:value="formData.name" type="text" clearable />
       </n-form-item>
 
       <n-form-item path="password" label="Password">
-        <n-input v-model:value="formData.password" type="password" show-password-on="click" @keydown.enter.prevent />
+        <n-input v-model:value="formData.password" type="password" show-password-on="click" />
       </n-form-item>
 
       <v-error-collapse :error-message="errorMessage" />
 
       <n-form-item>
         <n-space style="width: 100%" :wrap-item="false">
-          <n-button :loading="isLoading" :type="error ? 'error' : 'primary'" style="flex: 1" @click="onSubmit">
+          <n-button :loading="isLoading" :type="error ? 'error' : 'primary'" style="flex: 1" attr-type="submit">
             <template #icon>
               <n-icon>
                 <fa-exclamation-circle v-if="error" />

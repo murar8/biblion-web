@@ -54,9 +54,7 @@ const rules: FormRules = {
 const formData = ref<FormData>({ password: "" });
 const formRef = ref<FormInst | undefined>();
 
-const onSubmit = async (event: MouseEvent) => {
-  event.preventDefault();
-
+const onSubmit = async () => {
   try {
     await formRef.value!.validate();
   } catch {
@@ -76,18 +74,18 @@ const onSubmit = async (event: MouseEvent) => {
     justify="center"
     style="flex: 1; box-sizing: border-box; padding: 16px; width: min(384px, 100%)"
   >
-    <n-form ref="formRef" :model="formData" size="large" :rules="rules">
+    <n-form ref="formRef" :model="formData" size="large" :rules="rules" @submit.prevent="onSubmit">
       <n-h1>Reset your Password</n-h1>
 
       <n-form-item path="password" label="New Password">
-        <n-input v-model:value="formData.password" type="password" show-password-on="click" @keydown.enter.prevent />
+        <n-input v-model:value="formData.password" type="password" show-password-on="click" />
       </n-form-item>
 
       <v-error-collapse :error-message="errorMessage" />
 
       <n-form-item>
         <n-space style="width: 100%" :wrap-item="false">
-          <n-button :loading="isLoading" :type="error ? 'error' : 'primary'" style="flex: 1" @click="onSubmit">
+          <n-button :loading="isLoading" :type="error ? 'error' : 'primary'" style="flex: 1" attr-type="submit">
             <template #icon>
               <n-icon>
                 <fa-exclamation-circle v-if="error" />

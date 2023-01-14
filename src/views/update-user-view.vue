@@ -62,9 +62,7 @@ const payload = computed(() => {
   return Object.keys(payload).length > 0 ? payload : null;
 });
 
-const onSubmit = async (event: MouseEvent) => {
-  event.preventDefault();
-
+const onSubmit = async () => {
   try {
     await formRef.value!.validate();
   } catch {
@@ -76,13 +74,13 @@ const onSubmit = async (event: MouseEvent) => {
 </script>
 
 <template>
-  <n-form ref="formRef" :model="formData" size="large" :rules="rules">
+  <n-form ref="formRef" :model="formData" size="large" :rules="rules" @submit.prevent="onSubmit">
     <n-form-item path="email" label="Email">
-      <n-input v-model:value="formData.email" type="text" @keydown.enter.prevent />
+      <n-input v-model:value="formData.email" type="text" />
     </n-form-item>
 
     <n-form-item path="name" label="Username">
-      <n-input v-model:value="formData.name" type="text" clearable @keydown.enter.prevent />
+      <n-input v-model:value="formData.name" type="text" clearable />
     </n-form-item>
 
     <v-error-collapse :error-message="updateErrorMessage" />
@@ -93,7 +91,7 @@ const onSubmit = async (event: MouseEvent) => {
         :type="updateError ? 'error' : 'primary'"
         :disabled="!payload"
         style="flex: 1"
-        @click="onSubmit"
+        attr-type="submit"
       >
         <template #icon>
           <n-icon>

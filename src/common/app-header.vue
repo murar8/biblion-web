@@ -11,13 +11,18 @@ const title = useTitle(undefined, { observe: true });
         <n-avatar src="/logo-32.png" />
       </router-link>
     </template>
-    <template #title> {{ title }} </template>
+
+    <template #title>
+      {{ title }}
+    </template>
+
     <template #extra>
-      <n-space>
+      <n-space :wrap="false">
         <app-theme-button />
         <app-user-button />
       </n-space>
     </template>
   </n-page-header>
+
   <n-divider style="margin: 0" />
 </template>
