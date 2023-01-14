@@ -91,6 +91,7 @@ onMounted(() => {
 <style>
 .cm-root {
   display: flex;
+  max-width: 100%;
 }
 
 .cm-root .cm-editor {
@@ -107,8 +108,7 @@ onMounted(() => {
 
 .cm-root .cm-editor:hover,
 .cm-root .cm-editor.cm-focused {
-  outline: none;
-  border-color: v-bind("themeVars.primaryColorHover");
+  border-color: v-bind("$props.readonly ? themeVars.borderColor : themeVars.primaryColorHover");
 }
 
 .cm-root .cm-editor.cm-focused {

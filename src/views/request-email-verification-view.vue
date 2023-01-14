@@ -31,10 +31,13 @@ const errorMessage = useErrorMessage(error);
       :type="error ? 'error' : isSuccess ? 'success' : 'primary'"
       :loading="isLoading"
       style="width: 100%"
-      @click="() => requestEmailVerification()"
+      @click="requestEmailVerification()"
     >
       <template #icon>
-        <n-icon><fa-mail-bulk /></n-icon>
+        <n-icon>
+          <fa-exclamation-circle v-if="error" />
+          <fa-mail-bulk v-else />
+        </n-icon>
       </template>
 
       <template #default>

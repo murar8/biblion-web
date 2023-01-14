@@ -5,8 +5,10 @@ import { isDark, toggleDark } from "@/composables/dark";
 <template>
   <n-button circle @click="toggleDark()">
     <template #icon>
-      <n-icon v-if="isDark"><fa-sun /> </n-icon>
-      <n-icon v-else> <fa-moon /> </n-icon>
+      <n-icon>
+        <fa-sun v-if="isDark" />
+        <fa-moon v-else />
+      </n-icon>
     </template>
   </n-button>
 </template>

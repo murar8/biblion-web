@@ -36,7 +36,7 @@ const onTriggerClick = () => {
     :disabled="!user"
   >
     <template #trigger>
-      <n-button circle :loading="isLoading" @click="onTriggerClick">
+      <n-button circle :loading="isLoading" @click="onTriggerClick()">
         <template #icon>
           <n-icon><fa-user /></n-icon>
         </template>
@@ -80,11 +80,15 @@ const onTriggerClick = () => {
           style="padding: 8px"
           :loading="isLoggingOut"
           :type="logoutError ? 'error' : 'tertiary'"
-          @click="logout"
+          @click="logout()"
         >
           <template #icon>
-            <n-icon><fa-sign-out-alt /></n-icon>
+            <n-icon>
+              <fa-exclamation-circle v-if="logoutError" />
+              <fa-sign-out-alt v-else />
+            </n-icon>
           </template>
+
           <template #default> Log Out </template>
         </n-button>
       </n-space>
