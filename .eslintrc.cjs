@@ -3,7 +3,7 @@ require("@rushstack/eslint-patch/modern-module-resolution");
 
 module.exports = {
   root: true,
-  ignorePatterns: ["components.d.ts"],
+  ignorePatterns: ["components.d.ts", "src/generated"],
   plugins: ["unused-imports"],
   extends: [
     "eslint:recommended",

@@ -17,7 +17,6 @@ export default {
 
 <script setup lang="ts">
 import { useMutation, useQuery } from "@tanstack/vue-query";
-import { NButton, NIcon, NSpace, NTag } from "naive-ui";
 import { useRoute } from "vue-router";
 import { postsApi } from "@/api";
 import useErrorMessage from "@/composables/use-error-message";
@@ -84,24 +83,7 @@ const errorMessage = useErrorMessage(error);
           </template>
 
           <template #default>
-            <n-space vertical size="small">
-              <n-space v-if="creator" justify="space-between">
-                Creator:
-                <n-tag size="small" type="success">{{ creator.name || creator.email }}</n-tag>
-              </n-space>
-
-              <n-space justify="space-between">
-                Created:
-                <n-tag size="small" type="info">{{ post.createdAt.toLocaleDateString() }}</n-tag>
-              </n-space>
-
-              <n-space v-if="post.createdAt.getTime() !== post.updatedAt.getTime()" justify="space-between">
-                Updated:
-                <n-tag size="small" type="info">
-                  {{ post.updatedAt.toLocaleDateString() }}
-                </n-tag>
-              </n-space>
-            </n-space>
+            <v-post-info :creator="creator" :created-at="post.createdAt" :updated-at="post.updatedAt" />
           </template>
         </n-collapse-item>
       </n-collapse>

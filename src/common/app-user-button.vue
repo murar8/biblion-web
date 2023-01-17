@@ -35,7 +35,7 @@ const onTriggerClick = () => {
     ref="popoverRef"
     content-style="padding: 8px; display: flex; justify-content: center;"
     footer-style="padding: 0; display: flex; justify-content: center;"
-    trigger="click"
+    trigger="hover"
     :disabled="!user"
   >
     <template #trigger>
@@ -59,6 +59,19 @@ const onTriggerClick = () => {
     <template v-if="user" #footer>
       <n-space vertical :size="0">
         <n-button
+          text
+          style="padding: 8px"
+          type="primary"
+          @click="router.push({ name: 'user', params: { id: user!.id } })"
+        >
+          <template #icon>
+            <n-icon><fa-user /></n-icon>
+          </template>
+
+          <template #default> Profile </template>
+        </n-button>
+
+        <n-button
           v-if="!user!.verified"
           text
           style="padding: 8px"
@@ -68,13 +81,15 @@ const onTriggerClick = () => {
           <template #icon>
             <n-icon><fa-mail-bulk /></n-icon>
           </template>
+
           <template #default> Verify your Account </template>
         </n-button>
 
-        <n-button text style="padding: 8px" type="tertiary" @click="router.push({ name: 'settings' })">
+        <n-button text style="padding: 8px" type="info" @click="router.push({ name: 'settings' })">
           <template #icon>
             <n-icon><fa-user-edit /></n-icon>
           </template>
+
           <template #default> Account Settings </template>
         </n-button>
 

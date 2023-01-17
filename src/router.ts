@@ -12,6 +12,7 @@ const Register = () => import("@/views/register-view.vue");
 const RequestEmailVerification = () => import("@/views/request-email-verification-view.vue");
 const ResetPassword = () => import("@/views/reset-password-view.vue");
 const UserSettings = () => import("@/views/user-settings-view.vue");
+const UserDetails = () => import("@/views/user-details-view.vue");
 const VerifyEmail = () => import("@/views/verify-email-view.vue");
 
 const isAuthenticatedGuard = async (to: unknown, from: unknown, next: NavigationGuardNext) => {
@@ -36,6 +37,12 @@ const router = createRouter({
       meta: { title: "Home" },
     },
     {
+      path: "/users/:id",
+      name: "user",
+      component: UserDetails,
+      meta: { title: "User Details" },
+    },
+    {
       path: "/posts/:id",
       name: "post",
       component: PostView,
@@ -46,6 +53,7 @@ const router = createRouter({
       name: "edit-post",
       component: EditPostView,
       meta: { title: "Edit Post" },
+      beforeEnter: [verifiedUserGuard],
     },
     {
       path: "/register",
