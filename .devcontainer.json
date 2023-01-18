@@ -6,6 +6,10 @@
   "forwardPorts": [5173],
   "otherPortsAttributes": { "onAutoForward": "ignore" },
 
+  "containerEnv": {
+    "OPENAPI_URL": "http://biblion-code:8000/openapi.json"
+  },
+
   "features": {
     "ghcr.io/devcontainers/features/java:1": {
       "version": "latest"
