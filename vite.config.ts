@@ -8,7 +8,7 @@ import { IconComponentResolver } from "./icon-component-resolver";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.CI ? `/${process.env.GITHUB_REF_NAME!}` : "/",
+  base: process.env.CI ? "/biblion-web" : "/",
   plugins: [
     Vue(),
     Legacy(),
