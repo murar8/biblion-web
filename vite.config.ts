@@ -1,15 +1,14 @@
+import { fileURLToPath, URL } from "node:url";
 import Legacy from "@vitejs/plugin-legacy";
 import Vue from "@vitejs/plugin-vue";
-import Components from "unplugin-vue-components/vite";
-
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
-import { IconComponentResolver } from "./icon-component-resolver";
-
-import { fileURLToPath, URL } from "node:url";
+import Components from "unplugin-vue-components/vite";
 import { defineConfig } from "vite";
+import { IconComponentResolver } from "./icon-component-resolver";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: process.env.CI ? `/${process.env.GITHUB_REF_NAME!}` : "/",
   plugins: [
     Vue(),
     Legacy(),
