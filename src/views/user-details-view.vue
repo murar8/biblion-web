@@ -90,10 +90,21 @@ const errorMessage = useErrorMessage(error);
 
     <n-result v-if="errorMessage" status="error" title="An error occured" :description="errorMessage" />
 
-    <n-grid v-else-if="data" item-responsive responsive="screen" :x-gap="8" :y-gap="8" cols="1 s:2 m:3 l:4 xl:6">
+    <n-grid
+      v-else-if="data?.pages?.[0]?.data?.length"
+      item-responsive
+      responsive="screen"
+      :x-gap="8"
+      :y-gap="8"
+      cols="1 s:2 m:3 l:4 xl:6"
+    >
       <template v-for="(group, index) in data.pages" :key="index">
         <n-grid-item v-for="post in group.data" :key="post.id">
-          <n-card :title="post.name || post.id" style="height: 100%">
+          <n-card style="height: 100%">
+            <template #header>
+              <n-text :depth="post.name ? 1 : 3">{{ post.name || post.id }}</n-text>
+            </template>
+
             <template v-if="post.name" #header-extra>
               <n-text :depth="3">{{ post.id }}</n-text>
             </template>
@@ -144,6 +155,8 @@ const errorMessage = useErrorMessage(error);
         </n-grid-item>
       </template>
     </n-grid>
+
+    <n-h3 v-else style="text-align: center">No items found.</n-h3>
 
     <n-spin v-if="isInitialLoading" size="large" style="margin: auto; width: 100%" />
 
