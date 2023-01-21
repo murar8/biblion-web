@@ -6,7 +6,7 @@ import { ref, watchPostEffect } from "vue";
 import { useRouter } from "vue-router";
 import queryKeys from "@/query-keys";
 
-const { data: user } = useQuery(queryKeys.users.me);
+const { data: user, isLoading } = useQuery(queryKeys.users.me);
 const router = useRouter();
 const theme = useThemeVars();
 
@@ -79,12 +79,14 @@ watchPostEffect((onCleanup) => {
   <n-space vertical align="center" justify="center" class="container">
     <canvas ref="canvasRef" class="background" />
 
-    <n-space vertical align="center" justify="center" style="margin: 16px">
+    <n-space vertical align="center" justify="center" :wrap-item="false">
       <n-h1>Welcome to Biblion</n-h1>
 
       <n-h4> Biblion is a tool created to upload files and share them with ease.</n-h4>
 
-      <n-button v-if="user" type="primary" style="width: 100%" @click="router.push({ name: 'edit-post' })">
+      <n-spin v-if="isLoading" size="medium" />
+
+      <n-button v-else-if="user" type="primary" @click="router.push({ name: 'edit-post' })">
         <template #icon>
           <n-icon>
             <fa-sticky-note />
@@ -94,7 +96,7 @@ watchPostEffect((onCleanup) => {
         <template #default> Create a Post </template>
       </n-button>
 
-      <n-button v-else type="primary" style="width: 100%" @click="router.push({ name: 'register' })">
+      <n-button v-else type="primary" @click="router.push({ name: 'register' })">
         <template #icon>
           <n-icon>
             <fa-user />
