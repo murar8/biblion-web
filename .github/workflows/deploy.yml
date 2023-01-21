@@ -44,7 +44,8 @@ jobs:
         env: { VITE_API_URL: "${{ secrets.API_URL }}" }
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BIBLION_371218 }}"
+          projectId: biblion-371218
