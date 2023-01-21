@@ -108,6 +108,7 @@ onMounted(() => {
 
 .cm-root .cm-editor:hover,
 .cm-root .cm-editor.cm-focused {
+  outline: none;
   border-color: v-bind("$props.readonly ? themeVars.borderColor : themeVars.primaryColorHover");
 }
 
