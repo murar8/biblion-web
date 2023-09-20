@@ -4,7 +4,7 @@ This project contains the frontend functionality for the biblion project, a simp
 
 Live version of the website is available at https://biblion-murar8.web.app
 
-The backend repository is hosted at [https://github.com/murar8/biblion-api]()
+The backend repository is hosted at [https://github.com/murar8/biblion-api](https://github.com/murar8/biblion-api)
 
 ## Local development
 
